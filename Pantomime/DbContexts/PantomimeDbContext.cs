@@ -27,4 +27,9 @@ public class PantomimeDbContext : DbContext
             "server=localhost;database=Pantomime;user=sa;password=yourStrong(!)Password;TrustServerCertificate=True");
         base.OnConfiguring(optionsBuilder);
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+    }
 }

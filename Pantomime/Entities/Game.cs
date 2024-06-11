@@ -6,6 +6,6 @@ public class Game : BaseEntity<int>
     public byte TotalRoundCount { get; set; }
     public bool IsStarted { get; set; }
     
-    public List<Team> Teams { get; set; }
+    public List<GameTeam> Teams { get; set; }
     public List<GamePlay> GamePlays { get; set; }
 }
