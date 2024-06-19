@@ -60,17 +60,15 @@ public class Repositories<TEntity> : IRepositories<TEntity> where TEntity : clas
         }
     }
 
-    public void Delete(object id)
+    public bool Delete(object id)
     {
         var entity = GetById(id);
         if (entity is BaseEntity<int> deletedEntity)
         {
             deletedEntity.IsDeleted = true;
-            Update(entity);
+            return Update(entity);
         }
-        else
-        {
-            _dbSet.Remove(entity);
-        }
+        _dbSet.Remove(entity);
+        return false;
     }
 }
