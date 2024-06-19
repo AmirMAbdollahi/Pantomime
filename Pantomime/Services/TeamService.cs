@@ -4,12 +4,12 @@ using Pantomime.Repo.Context;
 
 namespace Pantomime.Services;
 
-public class CategoryService : ICategoryService
+public class TeamService : ITeamService
 {
     public bool Add(string name)
     {
         using var unit = new UnitOfWork(new PantomimeDbContext());
-        var isSuccessful = unit.CategoryRepo.Insert(new Category()
+        var isSuccessful = unit.TeamRepo.Insert(new Team()
         {
             Name = name
         });
@@ -17,19 +17,19 @@ public class CategoryService : ICategoryService
         return isSuccessful;
     }
 
-    public List<Category> GetAll()
+    public List<Team> GetAll()
     {
         using var unit = new UnitOfWork(new PantomimeDbContext());
-        return unit.CategoryRepo.GetAll().ToList();
+        return unit.TeamRepo.GetAll().ToList();
     }
 
     public bool Update(int id, string name)
     {
         using var unit = new UnitOfWork(new PantomimeDbContext());
-        var isSuccessful = unit.CategoryRepo.Update(new Category()
+        var isSuccessful = unit.TeamRepo.Update(new Team()
         {
             Id = id,
-            Name = name
+            Name = name,
         });
         unit.Save();
         return isSuccessful;
@@ -38,8 +38,7 @@ public class CategoryService : ICategoryService
     public bool Delete(int id)
     {
         using var unit = new UnitOfWork(new PantomimeDbContext());
-        var isSuccessful = unit.CategoryRepo.Delete(id);
-        unit.Save();
+        var isSuccessful = unit.TeamRepo.Delete(id);
         return isSuccessful;
     }
 }
