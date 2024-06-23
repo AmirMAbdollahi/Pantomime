@@ -13,4 +13,7 @@ public interface IRepositories<TEntity> where TEntity : class
     bool Update(TEntity entity);
 
     bool Delete(object id);
+
+    public void Save();
+
 }

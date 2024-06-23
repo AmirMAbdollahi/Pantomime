@@ -1,44 +1,47 @@
 using Pantomime.DbContexts;
 using Pantomime.Entities;
-using Pantomime.Repo.Context;
+using Pantomime.Repo;
 
 namespace Pantomime.Services;
 
 public class TeamService : ITeamService
 {
+    private IRepositories<Team> _teamRepo;
+
+    public TeamService(IRepositories<Team> teamRepo)
+    {
+        _teamRepo = teamRepo;
+    }
+
     public bool Add(string name)
     {
-        using var unit = new UnitOfWork(new PantomimeDbContext());
-        var isSuccessful = unit.TeamRepo.Insert(new Team()
+        var isSuccessful = _teamRepo.Insert(new Team()
         {
             Name = name
         });
-        unit.Save();
+        _teamRepo.Save();
         return isSuccessful;
     }
 
     public List<Team> GetAll()
     {
-        using var unit = new UnitOfWork(new PantomimeDbContext());
-        return unit.TeamRepo.GetAll().ToList();
+        return _teamRepo.GetAll().ToList();
     }
 
     public bool Update(int id, string name)
     {
-        using var unit = new UnitOfWork(new PantomimeDbContext());
-        var isSuccessful = unit.TeamRepo.Update(new Team()
+        var isSuccessful = _teamRepo.Update(new Team()
         {
             Id = id,
             Name = name,
         });
-        unit.Save();
+        _teamRepo.Save();
         return isSuccessful;
     }
 
     public bool Delete(int id)
     {
-        using var unit = new UnitOfWork(new PantomimeDbContext());
-        var isSuccessful = unit.TeamRepo.Delete(id);
+        var isSuccessful = _teamRepo.Delete(id);
         return isSuccessful;
     }
 }

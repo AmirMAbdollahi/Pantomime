@@ -1,47 +1,50 @@
 using Pantomime.DbContexts;
 using Pantomime.Entities;
-using Pantomime.Repo.Context;
+using Pantomime.Repo;
 
 namespace Pantomime.Services;
 
-public class GameService:IGameService
+public class GameService : IGameService
 {
+    private IRepositories<Game> _gameRepo;
+
+    public GameService(IRepositories<Game> gameRepo)
+    {
+        _gameRepo = gameRepo;
+    }
+
     public bool Add(string title, byte totalRoundCount, bool isStarted)
     {
-        using var unit = new UnitOfWork(new PantomimeDbContext());
-        var isSuccessful = unit.GameRepo.Insert(new Game()
+        var isSuccessful = _gameRepo.Insert(new Game()
         {
             Title = title,
             TotalRoundCount = totalRoundCount,
             IsStarted = isStarted
         });
-        unit.Save();
+        _gameRepo.Save();
         return isSuccessful;
     }
 
     public List<Game> GetAll()
     {
-        using var unit = new UnitOfWork(new PantomimeDbContext());
-        return unit.GameRepo.GetAll().ToList();
+        return _gameRepo.GetAll().ToList();
     }
 
     public bool Update(int id, string title, byte totalRoundCount, bool isStarted)
     {
-        using var unit = new UnitOfWork(new PantomimeDbContext());
-        var isSuccessful = unit.GameRepo.Update(new Game()
+        var isSuccessful = _gameRepo.Update(new Game()
         {
             Id = id,
             Title = title,
             TotalRoundCount = totalRoundCount,
             IsStarted = isStarted
         });
-        unit.Save();
+        _gameRepo.Save();
         return isSuccessful;
     }
 
     public bool Delete(int id)
     {
-        using var unit = new UnitOfWork(new PantomimeDbContext());
-        return unit.GameRepo.Delete(id);
+        return _gameRepo.Delete(id);
     }
 }

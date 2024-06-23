@@ -1,45 +1,46 @@
-using Pantomime.DbContexts;
 using Pantomime.Entities;
-using Pantomime.Repo.Context;
+using Pantomime.Repo;
 
 namespace Pantomime.Services;
 
 public class CategoryService : ICategoryService
 {
+    private IRepositories<Category> _categoryRepo;
+    public CategoryService(IRepositories<Category> categoryRepo)
+    {
+        _categoryRepo = categoryRepo;
+    }
+
     public bool Add(string name)
     {
-        using var unit = new UnitOfWork(new PantomimeDbContext());
-        var isSuccessful = unit.CategoryRepo.Insert(new Category()
+        var isSuccessful = _categoryRepo.Insert(new Category()
         {
             Name = name
         });
-        unit.Save();
+        _categoryRepo.Save();
         return isSuccessful;
     }
 
     public List<Category> GetAll()
     {
-        using var unit = new UnitOfWork(new PantomimeDbContext());
-        return unit.CategoryRepo.GetAll().ToList();
+        return _categoryRepo.GetAll().ToList();
     }
 
     public bool Update(int id, string name)
     {
-        using var unit = new UnitOfWork(new PantomimeDbContext());
-        var isSuccessful = unit.CategoryRepo.Update(new Category()
+        var isSuccessful = _categoryRepo.Update(new Category()
         {
             Id = id,
             Name = name
         });
-        unit.Save();
+        _categoryRepo.Save();
         return isSuccessful;
     }
 
     public bool Delete(int id)
     {
-        using var unit = new UnitOfWork(new PantomimeDbContext());
-        var isSuccessful = unit.CategoryRepo.Delete(id);
-        unit.Save();
+        var isSuccessful = _categoryRepo.Delete(id);
+        _categoryRepo.Save();
         return isSuccessful;
     }
 }

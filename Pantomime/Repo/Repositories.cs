@@ -71,4 +71,9 @@ public class Repositories<TEntity> : IRepositories<TEntity> where TEntity : clas
         _dbSet.Remove(entity);
         return false;
     }
+
+    public void Save()
+    {
+        _context.SaveChanges();
+    }
 }
