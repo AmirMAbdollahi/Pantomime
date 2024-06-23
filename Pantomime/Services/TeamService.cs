@@ -6,7 +6,7 @@ namespace Pantomime.Services;
 
 public class TeamService : ITeamService
 {
-    private IRepositories<Team> _teamRepo;
+    private readonly IRepositories<Team> _teamRepo;
 
     public TeamService(IRepositories<Team> teamRepo)
     {

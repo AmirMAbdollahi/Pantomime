@@ -5,7 +5,7 @@ namespace Pantomime.Services;
 
 public class GamePlayService : IGamePlayService
 {
-    private IRepositories<GamePlay> _gamePlay;
+    private readonly IRepositories<GamePlay> _gamePlay;
 
     public GamePlayService(IRepositories<GamePlay> gamePlay)
     {

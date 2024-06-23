@@ -6,7 +6,7 @@ namespace Pantomime.Services;
 
 public class GameService : IGameService
 {
-    private IRepositories<Game> _gameRepo;
+    private readonly IRepositories<Game> _gameRepo;
 
     public GameService(IRepositories<Game> gameRepo)
     {

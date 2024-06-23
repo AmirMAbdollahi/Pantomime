@@ -1,4 +1,4 @@
-using Pantomime.DbContexts;
+using Pantomime.DTO.WordDto;
 using Pantomime.Entities;
 using Pantomime.Repo;
 
@@ -6,8 +6,7 @@ namespace Pantomime.Services;
 
 public class WordService : IWordService
 {
-    private IRepositories<Word> _wordRepo;
-
+    private readonly IRepositories<Word> _wordRepo;
     public WordService(IRepositories<Word> wordRepo)
     {
         _wordRepo = wordRepo;
@@ -25,9 +24,14 @@ public class WordService : IWordService
         return isSuccessful;
     }
 
-    public List<Word> GetAll()
+    public List<WordDto> GetAll()
     {
-        return _wordRepo.GetAll().ToList();
+        var words = _wordRepo.GetAll().Select(word=>new WordDto()
+        {
+            Name = word.Name,
+            CategoryName = word.Category.Name
+        }).ToList();
+        return words;
     }
 
     public bool Update(int id, string name, int categoryId)
@@ -42,7 +46,7 @@ public class WordService : IWordService
         return isSuccessful;
     }
 
-    public bool Delete(int id, bool isDeleted)
+    public bool Delete(int id)
     {
         var isSuccessful = _wordRepo.Delete(id);
         _wordRepo.Save();

@@ -5,7 +5,7 @@ namespace Pantomime.Services;
 
 public class CategoryService : ICategoryService
 {
-    private IRepositories<Category> _categoryRepo;
+    private readonly IRepositories<Category> _categoryRepo;
     public CategoryService(IRepositories<Category> categoryRepo)
     {
         _categoryRepo = categoryRepo;
