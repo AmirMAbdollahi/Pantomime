@@ -7,26 +7,28 @@ namespace Pantomime.Services;
 public class WordService : IWordService
 {
     private readonly IRepositories<Word> _wordRepo;
+
     public WordService(IRepositories<Word> wordRepo)
     {
         _wordRepo = wordRepo;
     }
 
-    public bool Add(string name, int categoryId)
+    public bool Add(CreateWordDto wordDto)
     {
-        var isSuccessful = _wordRepo.Insert(new Word()
+        var word = new Word
         {
-            Name = name,
-            CategoryId = categoryId,
-            IsDeleted = false,
-        });
+            Name = wordDto.Name,
+            CategoryId = wordDto.CategoryId,
+            IsDeleted = false
+        };
+        var isSuccessful = _wordRepo.Insert(word);
         _wordRepo.Save();
         return isSuccessful;
     }
 
     public List<WordDto> GetAll()
     {
-        var words = _wordRepo.GetAll().Select(word=>new WordDto()
+        var words = _wordRepo.GetAll().Select(word => new WordDto()
         {
             Name = word.Name,
             CategoryName = word.Category.Name
@@ -34,14 +36,15 @@ public class WordService : IWordService
         return words;
     }
 
-    public bool Update(int id, string name, int categoryId)
+    public bool Update(UpdateWordDto wordDto)
     {
-        var isSuccessful = _wordRepo.Update(new Word()
+        var word = new Word
         {
-            Id = id,
-            Name = name,
-            CategoryId = categoryId
-        });
+            Id = wordDto.Id,
+            Name = wordDto.Name,
+            CategoryId = wordDto.CategoryId
+        };
+        var isSuccessful = _wordRepo.Update(word);
         _wordRepo.Save();
         return isSuccessful;
     }

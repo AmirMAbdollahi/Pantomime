@@ -5,11 +5,11 @@ namespace Pantomime.Services;
 
 public interface IWordService
 {
-    public bool Add(string name, int categoryId);
+    public bool Add(CreateWordDto wordDto);
 
     public List<WordDto> GetAll();
 
-    public bool Update(int id, string name, int categoryId);
+    public bool Update(UpdateWordDto wordDto);
 
     public bool Delete(int id);
 }
