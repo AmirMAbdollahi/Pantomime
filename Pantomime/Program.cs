@@ -5,9 +5,9 @@ using Pantomime.Entities;
 using Pantomime.Repo;
 using Pantomime.Services;
 
-var wordService=new WordService(new Repositories<Word>(new PantomimeDbContext()));
+var teamService=new TeamService(new Repositories<Team>(new PantomimeDbContext()));
 
-var words=wordService.GetAll();
+var words=teamService.GetAll();
 
 Console.ReadKey();
 

@@ -1,5 +1,4 @@
 using Pantomime.DTO.WordDto;
-using Pantomime.Entities;
 
 namespace Pantomime.Services;
 

@@ -1,4 +1,5 @@
 using Pantomime.DbContexts;
+using Pantomime.DTO.TeamDto;
 using Pantomime.Entities;
 using Pantomime.Repo;
 
@@ -15,26 +16,33 @@ public class TeamService : ITeamService
 
     public bool Add(string name)
     {
-        var isSuccessful = _teamRepo.Insert(new Team()
+        var team = new Team()
         {
-            Name = name
-        });
+            Name = name,
+            IsDeleted = false
+        };
+        var isSuccessful = _teamRepo.Insert(team);
         _teamRepo.Save();
         return isSuccessful;
     }
 
-    public List<Team> GetAll()
+    public List<TeamDto> GetAll()
     {
-        return _teamRepo.GetAll().ToList();
+        var teams = _teamRepo.GetAll().Select(team => new TeamDto()
+        {
+            Name = team.Name,
+        }).ToList();
+        return teams;
     }
 
-    public bool Update(int id, string name)
+    public bool Update(UpdateTeamDto teamDto)
     {
-        var isSuccessful = _teamRepo.Update(new Team()
+        var team = new Team()
         {
-            Id = id,
-            Name = name,
-        });
+            Id = teamDto.Id,
+            Name = teamDto.Name
+        };
+        var isSuccessful = _teamRepo.Update(team);
         _teamRepo.Save();
         return isSuccessful;
     }
