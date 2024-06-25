@@ -1,14 +1,15 @@
+using Pantomime.DTO.GameDto;
 using Pantomime.Entities;
 
 namespace Pantomime.Services;
 
 public interface IGameService
 {
-    public bool Add(string title, byte totalRoundCount, bool isStarted);
+    public bool Add(CreateGameDto gameDto);
 
-    public List<Game> GetAll();
+    public List<GameDto> GetAll();
 
-    public bool Update(int id, string title, byte totalRoundCount, bool isStarted);
+    public bool Update(UpdateGameDto gameDto);
 
     public bool Delete(int id);
 }

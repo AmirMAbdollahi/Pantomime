@@ -1,4 +1,5 @@
 using Pantomime.DbContexts;
+using Pantomime.DTO.GameDto;
 using Pantomime.Entities;
 using Pantomime.Repo;
 
@@ -13,32 +14,41 @@ public class GameService : IGameService
         _gameRepo = gameRepo;
     }
 
-    public bool Add(string title, byte totalRoundCount, bool isStarted)
+    public bool Add(CreateGameDto gameDto)
     {
-        var isSuccessful = _gameRepo.Insert(new Game()
+        var game = new Game()
         {
-            Title = title,
-            TotalRoundCount = totalRoundCount,
-            IsStarted = isStarted
-        });
+            Title = gameDto.Title,
+            TotalRoundCount = gameDto.TotalRoundCount,
+            IsStarted = gameDto.IsStarted
+        };
+        var isSuccessful = _gameRepo.Insert(game);
         _gameRepo.Save();
         return isSuccessful;
     }
 
-    public List<Game> GetAll()
+    public List<GameDto> GetAll()
     {
-        return _gameRepo.GetAll().ToList();
+        var games = _gameRepo.GetAll().Select(game => new GameDto()
+        {
+            Id = game.Id,
+            Title = game.Title,
+            TotalRoundCount = game.TotalRoundCount,
+            IsStarted = game.IsStarted
+        }).ToList();
+        return games;
     }
 
-    public bool Update(int id, string title, byte totalRoundCount, bool isStarted)
+    public bool Update(UpdateGameDto gameDto)
     {
-        var isSuccessful = _gameRepo.Update(new Game()
+        var game = new Game()
         {
-            Id = id,
-            Title = title,
-            TotalRoundCount = totalRoundCount,
-            IsStarted = isStarted
-        });
+            Id = gameDto.Id,
+            Title = gameDto.Title,
+            TotalRoundCount = gameDto.TotalRoundCount,
+            IsStarted = gameDto.IsStarted
+        };
+        var isSuccessful = _gameRepo.Update(game);
         _gameRepo.Save();
         return isSuccessful;
     }
